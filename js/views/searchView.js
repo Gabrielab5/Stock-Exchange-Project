@@ -17,12 +17,31 @@ export const searchView = {
             return;
         }
 
-        const ul = document.createElement('ul');
+        const ul = document.createElement('ul'); 
         companies.forEach(company => {
             const li = document.createElement('li');
+            const companyImageHtml = company.image
+                ? `<img src="${company.image}" alt="${company.symbol} Logo" class="company-list-logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/36?text=${company.symbol.substring(0,2)}';">`
+                : `<img src="https://via.placeholder.com/36?text=${company.symbol.substring(0,2)}" alt="Placeholder Logo" class="company-list-logo">`;
+           let percentageClass = '';
+            if (company.changesPercentage !== null && company.changesPercentage !== undefined) {
+                if (company.changesPercentage > 0) percentageClass = 'positive-change';
+                else if (company.changesPercentage < 0)  percentageClass = 'negative-change';               
+            }
+            const percentageText = company.changesPercentage !== null && company.changesPercentage !== undefined
+             ? `${company.changesPercentage.toFixed(2)}%` : 'N/A';
+
             li.innerHTML = `
-                <a href="/company.html?symbol=${company.symbol}">${company.name}</a>
-                <span class="company-symbol">(${company.symbol})</span>
+                <div class="company-info-left">
+                    ${companyImageHtml}
+                    <div>
+                        <a href="/company.html?symbol=${company.symbol}">${company.name}</a>
+                        <span class="company-symbol">(${company.symbol})</span>
+                    </div>
+                </div>
+                <div class="company-info-right">
+                    <span class="stock-change-percentage ${percentageClass}">${percentageText}</span>
+                </div>
             `;
             ul.appendChild(li);
         });
