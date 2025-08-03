@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Details</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; Back to Search</a>
+        <h1>Company Details</h1>
+
+        <div id="loadingIndicator" class="loading-indicator" style="display: none;">Loading company data...</div>
+        <div id="errorMessage" class="error-message" style="display: none; color: red;"></div>
+
+        <div id="companyProfile" class="company-profile" style="display: none;">
+            <img id="companyImage" src="" alt="Company Logo" class="company-logo" style="display: none;">
+            <h2 id="companyName"></h2>
+            <p><strong>Symbol:</strong> <span id="companySymbol"></span></p>
+            <p><strong>Exchange:</strong> <span id="companyExchange"></span></p>
+            <p id="companyDescription"></p>
+            <p><a id="companyWebsite" href="#" target="_blank">Visit Website</a></p>
+        </div>
+
+        <div id="stockInfo" class="stock-info" style="display: none;">
+            <h3>Current Stock Price</h3>
+            <p><strong>Price:</strong> <span id="stockPrice"></span></p>
+            <p><strong>Changes (Percentage):</strong> <span id="stockChangesPercentage"></span></p>
+        </div>
+
+        <div id="priceHistoryChart" class="price-history-chart" style="display: none;">
+            <h3>Stock Price History</h3>
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

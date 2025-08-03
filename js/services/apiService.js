@@ -19,8 +19,25 @@ export const apiService = {
         }
     },
 
-    getCompanyDetails: async (symbol) => {
+    getCompanyProfile: async (symbol) => {
         const url = `${BASE_URL}/profile/${symbol}?apikey=${API_KEY}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorData.message || 'Unknown error'}`);
+            }
+            const data = await response.json();
+             return data.length > 0 ? data[0] : null;
+        } catch (error) {
+            console.error(`Error fetching company profile for ${symbol}:`, error);
+            throw error;
+        }
+    },
+
+    // Fetches the historical stock price data for a company.
+    getHistoricalPrice: async (symbol) => {
+        const url = `${BASE_URL}/historical-price-full/${symbol}?serietype=line&apikey=${API_KEY}`;
         try {
             const response = await fetch(url);
             if (!response.ok) {
@@ -30,7 +47,7 @@ export const apiService = {
             const data = await response.json();
             return data;
         } catch (error) {
-            console.error(`Error fetching details for ${symbol}:`, error);
+            console.error(`Error fetching historical price for ${symbol}:`, error);
             throw error;
         }
     }

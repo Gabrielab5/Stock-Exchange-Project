@@ -1,5 +1,5 @@
-import { stockModel } from './stockModel.js';
-import { searchView } from './searchView.js';
+import { stockModel } from '../models/stockModel.js';
+import { searchView } from '../views/searchView.js';
 
 export const searchController = {
     init: () => {
