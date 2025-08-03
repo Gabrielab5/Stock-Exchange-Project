@@ -4,19 +4,38 @@ export const stockModel = {
     // Searches for companies and returns a simplified list.
     searchCompanies: async (query) => {
         try {
-            const results = await apiService.searchCompanies(query, 10, 'NASDAQ');
-            return results.map(company => {
-                const mockChange = (Math.random() * 10 - 5).toFixed(2); 
-                const mockImage = `https://financialmodelingprep.com/image-original/${company.symbol}.png`; // FMP's logo endpoint pattern
+            const basicResults = await apiService.searchCompanies(query, 10, 'NASDAQ');
+            if (basicResults.length === 0) return [];
+            const symbolsToFetch = basicResults.map(company => company.symbol);
+            const detailedProfiles = await apiService.getMultipleCompanyProfiles(symbolsToFetch);
 
+            const detailedProfileMap = detailedProfiles.reduce((map, profile) => {
+                map[profile.symbol] = profile;
+                return map;
+            }, {}); 
+            const finalResults = basicResults.map(company => {
+                const profile = detailedProfileMap[company.symbol];
+
+                let changesPercentage = null;
+                let image = null;
+
+                if (profile) {
+                    changesPercentage = profile.changesPercentage;
+                    image = profile.image; 
+                }
+                if (!image) image = `https://via.placeholder.com/36?text=${company.symbol.substring(0,2)}`;
+                
                 return {
                     name: company.name,
                     symbol: company.symbol,
                     currency: company.currency,
-                    image: mockImage, 
-                    changesPercentage: parseFloat(mockChange) 
+                    image: image, 
+                    changesPercentage: parseFloat(changesPercentage) 
                 };
             });
+
+            return finalResults;
+
         } catch (error) {
             console.error("Error in stockModel.searchCompanies:", error);
             throw error; 

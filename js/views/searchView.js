@@ -20,10 +20,8 @@ export const searchView = {
         const ul = document.createElement('ul'); 
         companies.forEach(company => {
             const li = document.createElement('li');
-            const companyImageHtml = company.image
-                ? `<img src="${company.image}" alt="${company.symbol} Logo" class="company-list-logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/36?text=${company.symbol.substring(0,2)}';">`
-                : `<img src="https://via.placeholder.com/36?text=${company.symbol.substring(0,2)}" alt="Placeholder Logo" class="company-list-logo">`;
-           let percentageClass = '';
+            const companyImageHtml = `<img src="${company.image}" alt="${company.symbol} Logo" class="company-list-logo" onerror="this.onerror=null; this.src='img/placeholder-logo.png';">`;
+            let percentageClass = '';
             if (company.changesPercentage !== null && company.changesPercentage !== undefined) {
                 if (company.changesPercentage > 0) percentageClass = 'positive-change';
                 else if (company.changesPercentage < 0)  percentageClass = 'negative-change';               

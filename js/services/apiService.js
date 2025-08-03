@@ -50,5 +50,26 @@ export const apiService = {
             console.error(`Error fetching historical price for ${symbol}:`, error);
             throw error;
         }
-    }
+    },
+
+    // fetches multiple company profiles in a single request.
+    getMultipleCompanyProfiles: async (symbols) => {
+        if (!symbols || symbols.length === 0) return [];
+        
+        const symbolsString = symbols.join(',');
+        const url = `${BASE_URL}/profile/${symbolsString}?apikey=${API_KEY}`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorData.message || 'Unknown error'}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(`Error fetching multiple company profiles for symbols ${symbolsString}:`, error);
+            throw error;
+        }
+    },
 };
