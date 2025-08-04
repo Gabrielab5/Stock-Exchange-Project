@@ -1,8 +1,10 @@
 import { searchController } from './controllers/searchController.js';
 import { companyController } from './controllers/companyController.js';
+import { marqueeController } from './controllers/marqueeController.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
+    marqueeController.init();
     if (currentPath.includes('company.html')) {
         companyController.init();
     } else if (currentPath.includes('search.html')) {

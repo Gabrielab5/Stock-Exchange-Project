@@ -72,4 +72,21 @@ export const apiService = {
             throw error;
         }
     },
+
+    // Fetches real-time stock quotes for a specified exchange.
+    getExchangeQuotes: async (exchange = 'NASDAQ') => {
+        const url = `${BASE_URL}/actives/${exchange}?apikey=${API_KEY}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorData.message || 'Unknown error'}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(`Error fetching quotes for ${exchange}:`, error);
+            throw error;
+        }
+    },
 };
