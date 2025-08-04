@@ -30,7 +30,13 @@ export const stockModel = {
                 let image = null;
 
                 if (profile) {
-                    changesPercentage = profile.changesPercentage;
+                    const parsedPercentage = parseFloat(profile.changesPercentage);
+                    if (!isNaN(parsedPercentage)) {
+                        changesPercentage = parsedPercentage;
+                    } else {
+                        changesPercentage = null;
+                        console.warn(`changesPercentage for ${company.symbol} is NaN or missing in profile. Using null.`);
+                    }
                     image = profile.image; 
                 }
                 if (!image) image = `https://via.placeholder.com/36?text=${company.symbol.substring(0,2)}`;
@@ -103,18 +109,23 @@ export const stockModel = {
         try {
             const allQuotes = await apiService.getExchangeQuotes(exchange);
 
-             if (!allQuotes || allQuotes.length === 0) {
+            if (!allQuotes || allQuotes.length === 0) {
                 console.warn('API returned no data for the marquee. Using mock data.');
                 return mockMarqueeStocks.slice(0, limit);
             }
 
             const subsetQuotes = allQuotes.slice(0, limit);
-            return subsetQuotes.map(quote => ({
-                symbol: quote.symbol,
-                name: quote.companyName || quote.name,
-                price: quote.price,
-                changesPercentage: quote.changesPercentage
-            }));
+            return subsetQuotes.map(quote => {
+                const price = parseFloat(quote.price);
+                const changesPercentage = parseFloat(quote.changesPercentage);
+
+                return {
+                    symbol: quote.symbol,
+                    name: quote.companyName || quote.name,
+                    price: isNaN(price) ? null : price,
+                    changesPercentage: isNaN(changesPercentage) ? null : changesPercentage
+                };
+            });
         } catch (error) {
             console.error(`Error in stockModel.getMarqueeStocks for ${exchange}:`, error);
             return mockMarqueeStocks.slice(0, limit);

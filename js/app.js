@@ -1,17 +1,29 @@
-import { searchController } from './controllers/searchController.js';
 import { companyController } from './controllers/companyController.js';
 import Marquee from './Marquee.js';
+import SearchForm from './SearchForm.js';    
+import SearchResult from './SearchResult.js'; 
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const currentPath = window.location.pathname;
     const marquee = new Marquee(document.getElementById('stockMarquee'));
     marquee.init();
-    
-    if (currentPath.includes('company.html')) {
+
+    if (currentPath === '/' || currentPath.includes('index.html') || currentPath.includes('search.html')) {
+        const formContainer = document.getElementById('form');
+        const resultsContainer = document.getElementById('searchResults');
+
+        if (formContainer && resultsContainer) {
+            const searchForm = new SearchForm(formContainer);
+            const searchResults = new SearchResult(resultsContainer);
+
+            searchForm.onSearch((state) => {
+                searchResults.renderResults(state);
+            });
+        }
+    }
+    else if (currentPath.includes('company.html')) {
         companyController.init();
-    } else if (currentPath.includes('search.html')) {
-        searchController.init();
-    } else if (currentPath === '/' || currentPath.endsWith('index.html')) {
-        searchController.init();
     }
 });
+
