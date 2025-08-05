@@ -1,6 +1,6 @@
 import { stockModel } from './models/stockModel.js';
 
-class CompanyInfo {
+export default class CompanyInfo {
     constructor(containerElement, symbol) {
         if (!(containerElement instanceof HTMLElement)) {
             console.error('CompanyInfo constructor requires a valid HTML element.');

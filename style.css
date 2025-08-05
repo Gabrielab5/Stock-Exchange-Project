@@ -344,7 +344,12 @@ h3 {
 }
 
 .container {
-    margin-top: 0px;
+    max-width: 960px;
+    margin: 30px auto;
+    background-color: #fff;    
+    padding: 30px 60px; 
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .positive-change {
@@ -359,6 +364,15 @@ h3 {
     border: 1px solid #f5c6cb;
 }
 
+   #compInfo {
+        max-width: 960px;
+        margin: 30px auto;
+        background-color: #fff;    
+        padding: 30px 60px; 
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
 @media (max-width: 768px) {
     .container {
         margin: 20px auto;
@@ -395,6 +409,7 @@ h3 {
     .search-results .company-symbol {
         margin-top: 5px;
     }
+
 }
 
 @media (max-width: 480px) {
