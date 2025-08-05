@@ -1,4 +1,3 @@
-import { companyController } from './controllers/companyController.js';
 import Marquee from './Marquee.js';
 import SearchForm from './SearchForm.js';    
 import SearchResult from './SearchResult.js'; 
@@ -25,9 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Compare button clicked! Company object:", company);
             });
         }
-    }
-    else if (currentPath.includes('company.html')) {
-        companyController.init();
     }
 });
 
