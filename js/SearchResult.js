@@ -6,6 +6,7 @@ class SearchResult {
         }
         this.containerElement = containerElement;
         this.containerElement.className = 'search-results'; 
+        this.compareCallback = null;
 
         this.loadingIndicator = document.createElement('div');
         this.loadingIndicator.className = 'loading-indicator';
@@ -90,7 +91,7 @@ class SearchResult {
                 const compareButton = li.querySelector('.compare-button');
                 compareButton.addEventListener('click', () => {
                     if (this.compareCallback) {
-                        this.compareCallback(company.symbol);
+                        this.compareCallback(company);
                     } else {
                         console.warn('No compare callback defined.');
                     }
