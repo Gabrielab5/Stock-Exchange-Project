@@ -7,9 +7,14 @@ export default class ComparisonList {
         this.containerElement = containerElement;
         this.companies = {}; 
         this.render();
+        this.MAX_COMPANIES = 3;
     }
 
     addCompany(company) {
+        if (Object.keys(this.companies).length >= this.MAX_COMPANIES) {
+            alert(`You can only compare up to ${this.MAX_COMPANIES} companies.`);
+            return;
+        }
         if (!this.companies[company.symbol]) {
             this.companies[company.symbol] = company;
             this.render();
@@ -24,6 +29,7 @@ export default class ComparisonList {
     render() {
         const companySymbols = Object.keys(this.companies);
         const hasCompanies = companySymbols.length > 0;
+        const compareBtnEnabled = companySymbols.length > 1;
 
         this.containerElement.innerHTML = `
             ${hasCompanies ? `
@@ -61,8 +67,8 @@ export default class ComparisonList {
                     alert('Please add at least two companies to compare.');
                     return;
                 }
-                console.log("Navigating to comparison page with symbols:", symbols);
-                alert("This would navigate to a new page to compare companies.");
+                const symbolsQuery = symbols.join(',');
+                window.location.href = `compare.html?symbols=${symbolsQuery}`;
             });
         }
     }

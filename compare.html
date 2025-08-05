@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Companies</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="https://www.google.com/s2/favicons?domain=investopedia.com">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<body>
+    <div id="compare-container">
+        <a href="index.html" class="back-link">&larr; Back to Search</a>
+        <h1>Compare Stocks:</h1>
+        <div id="compare-cards-container"></div>
+    </div>
+    <script type="module" src="js/ComparisonPage.js"></script>
+    <script type="module">
+        import ComparisonPage from './js/ComparisonPage.js';
+
+        (async function () {
+            const params = new URLSearchParams(location.search);
+            const symbolsString = params.get('symbols');
+            if (symbolsString) {
+                const symbols = symbolsString.split(',');
+                const comparisonPage = new ComparisonPage(document.getElementById('compare-cards-container'), symbols);
+                await comparisonPage.load();
+            } else {
+                document.getElementById('compare-cards-container').innerHTML = '<p class="error-message">No companies selected for comparison.</p>';
+            }
+        })();
+    </script>
+</body>
+</html>
