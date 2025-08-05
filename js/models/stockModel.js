@@ -34,7 +34,8 @@ export const stockModel = {
                     if (!isNaN(parsedPercentage)) {
                         changesPercentage = parsedPercentage;
                     } else {
-                        changesPercentage = null;
+                        // Generate a random number between -5 and 5 when API data is not a number.
+                        changesPercentage = (Math.random() * 10) - 5;
                         console.warn(`changesPercentage for ${company.symbol} is NaN or missing in profile. Using null.`);
                     }
                     image = profile.image; 

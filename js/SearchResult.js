@@ -38,6 +38,8 @@ class SearchResult {
 
         if (state.type === 'success') {
             const companies = state.data;
+            const query =  state.query;
+
             if (companies.length === 0) {
                 this.containerElement.innerHTML += '<p>No results found.</p>';
                 return;
@@ -61,12 +63,22 @@ class SearchResult {
                                      ? `${company.changesPercentage.toFixed(2)}%`
                                      : 'N/A';
 
+                const highlightMatch = (text, query) => {
+                    if (!query) return text;
+                    const regex = new RegExp(`(${query})`, 'gi');
+                    return text.replace(regex, '<span class="highlight">$1</span>');
+                };
+
+                const highlightedName = highlightMatch(company.name, query);
+                const highlightedSymbol = highlightMatch(company.symbol, query);
+
+                
                 li.innerHTML = `
                     <div class="company-info-left">
                         ${companyImageHtml}
                         <div>
-                            <a href="/company.html?symbol=${company.symbol}">${company.name}</a>
-                            <span class="company-symbol">(${company.symbol})</span>
+                            <a href="/company.html?symbol=${company.symbol}">${highlightedName}</a>
+                            <span class="company-symbol">(${highlightedSymbol})</span>
                         </div>
                     </div>
                     <div class="company-info-right">

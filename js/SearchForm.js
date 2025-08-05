@@ -41,13 +41,13 @@ class SearchForm {
         }
 
         if (this.searchCallback) {
-            this.searchCallback({ type: 'loading' });
+            this.searchCallback({ type: 'loading' , query: query});
         }
 
         try {
             const companies = await stockModel.searchCompanies(query);
             if (this.searchCallback) {
-                this.searchCallback({ type: 'success', data: companies });
+                this.searchCallback({ type: 'success', data: companies, query: query });
             }
         } catch (error) {
             console.error("SearchForm: Search failed:", error);
