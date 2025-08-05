@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
             searchForm.onSearch((state) => {
                 searchResults.renderResults(state);
             });
+
+            searchResults.onCompare((company) => {
+                console.log("Compare button clicked! Company object:", company);
+            });
         }
     }
     else if (currentPath.includes('company.html')) {

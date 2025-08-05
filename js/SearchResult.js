@@ -83,12 +83,27 @@ class SearchResult {
                     </div>
                     <div class="company-info-right">
                         <span class="stock-change-percentage ${percentageClass}">${percentageText}</span>
-                    </div>
+                        <button class="compare-button" data-symbol="${company.symbol}">Compare</button>
+                    </div>             
                 `;
+
+                const compareButton = li.querySelector('.compare-button');
+                compareButton.addEventListener('click', () => {
+                    if (this.compareCallback) {
+                        this.compareCallback(company.symbol);
+                    } else {
+                        console.warn('No compare callback defined.');
+                    }
+                })
+
                 ul.appendChild(li);
             });
+
             this.containerElement.appendChild(ul);
         }
+    }
+    onCompare(callback) {
+        this.compareCallback = callback;
     }
 }
 
